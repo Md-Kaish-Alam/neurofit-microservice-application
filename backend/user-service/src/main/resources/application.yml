@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: user_service
+    name: user-service
   datasource:
     url: jdbc:postgresql://localhost:5432/neurofit_user_db
     username: postgres
@@ -12,5 +12,8 @@ spring:
     hibernate:
       ddl-auto: update
     open-in-view: false
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
