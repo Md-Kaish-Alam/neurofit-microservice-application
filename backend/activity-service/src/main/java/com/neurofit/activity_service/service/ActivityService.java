@@ -16,6 +16,8 @@ public class ActivityService {
 
     private final ActivityRepository activityRepository;
 
+    private final UserValidationService userValidationService;
+
     private ActivityResponse mapToResponse(Activity activity) {
         ActivityResponse response = new ActivityResponse();
         response.setId(activity.getId());
@@ -32,6 +34,13 @@ public class ActivityService {
     }
 
     public ActivityResponse trackActivity(ActivityRequest activityRequest) {
+
+        boolean isValidUser = userValidationService.validateUser(activityRequest.getUserId());
+
+        if (!isValidUser) {
+            throw new RuntimeException("Invalid user: " + activityRequest.getUserId());
+        }
+
         Activity activity = Activity.builder()
                 .userId(activityRequest.getUserId())
                 .activityType(activityRequest.getActivityType())
