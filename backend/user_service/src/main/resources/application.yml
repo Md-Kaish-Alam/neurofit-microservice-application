@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user_service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/neurofit_user_db
+    username: postgres
+    password: nuwaish@1511
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
