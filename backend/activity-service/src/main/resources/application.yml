@@ -8,6 +8,11 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/neurofit
       database: neurofit
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   client:
@@ -16,3 +21,11 @@ eureka:
   instance:
     prefer-ip-address: true
     hostname: localhost
+
+rabbitmq:
+  exchange:
+    name: neurofit.exchange
+  queue:
+    name: activity.queue
+  routing:
+    key: activity.tracking
