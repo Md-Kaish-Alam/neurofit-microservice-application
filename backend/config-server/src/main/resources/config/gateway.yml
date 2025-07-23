@@ -19,6 +19,11 @@ spring:
           uri: lb://RECOMMENDATION-SERVICE
           predicates:
             - Path=/api/recommendations/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8181/realms/neurofit-oauth2/protocol/openid-connect/certs
 
 eureka:
   client:

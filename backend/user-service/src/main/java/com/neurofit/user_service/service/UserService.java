@@ -13,49 +13,46 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    private static UserResponse getUserResponse(User responseUser) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(responseUser.getId());
+        userResponse.setKeycloakId(responseUser.getKeycloakId());
+        userResponse.setEmail(responseUser.getEmail());
+        userResponse.setPassword(responseUser.getPassword());
+        userResponse.setFirstName(responseUser.getFirstName());
+        userResponse.setLastName(responseUser.getLastName());
+        userResponse.setCreatedAt(responseUser.getCreatedAt());
+        userResponse.setUpdatedAt(responseUser.getUpdatedAt());
+        return userResponse;
+    }
+
     public UserResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email already exist.");
+            User existingUser = userRepository.findByEmail(request.getEmail());
+            return getUserResponse(existingUser);
         }
 
         User user = new User();
         user.setEmail(request.getEmail());
+        user.setKeycloakId(request.getKeycloakId());
         user.setPassword(request.getPassword());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
 
         User savedUser = userRepository.save(user);
 
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(savedUser.getId());
-        userResponse.setEmail(savedUser.getEmail());
-        userResponse.setPassword(savedUser.getPassword());
-        userResponse.setFirstName(savedUser.getFirstName());
-        userResponse.setLastName(savedUser.getLastName());
-        userResponse.setCreatedAt(savedUser.getCreatedAt());
-        userResponse.setUpdatedAt(savedUser.getUpdatedAt());
-
-        return userResponse;
+        return getUserResponse(savedUser);
     }
 
     public UserResponse getUserProfile(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(user.getId());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setCreatedAt(user.getCreatedAt());
-        userResponse.setUpdatedAt(user.getUpdatedAt());
-
-        return userResponse;
+        return getUserResponse(user);
     }
 
     public Boolean existsByUserId(String userId) {
-        return userRepository.existsById(userId);
+        return userRepository.existsByKeycloakId(userId);
     }
 }

@@ -1,4 +1,4 @@
-package com.neurofit.user_service.dto;
+package com.neurofit.gateway.dto;
 
 import lombok.Data;
 
